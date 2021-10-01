@@ -25,13 +25,13 @@ class MemoryCollectionTest extends TestCase
     {
         $collection = new MemoryCollection();
         $collection->set('index1', 'value');
-        $collection->set('index2', 5);
+        $collection->set('index2', 5, '09:58:01');
         $collection->set('index3', true);
-        $collection->set('index4', 6.5);
-        $collection->set('index5', ['data']);
+        $collection->set('index4', 6.5, '23:17:10');
+        $collection->set('index5', ['data'], '08:17:10');
     }
 
-     /**
+    /**
      * @test
      * @depends dataCanBeAdded
      */
@@ -39,8 +39,12 @@ class MemoryCollectionTest extends TestCase
     {
         $collection = new MemoryCollection();
         $collection->set('index1', 'value');
+        $collection->set('index2', ['data_1', 'data_2'], '08:17:10');
+        $collection->set('index3', 25.6, '23:17:10');
 
         $this->assertEquals('value', $collection->get('index1'));
+        $this->assertEquals(null, $collection->get('index2'));
+        $this->assertEquals(25.6, $collection->get('index3'));
     }
 
     /**

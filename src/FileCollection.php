@@ -2,26 +2,22 @@
 
 namespace Live\Collection;
 
-/**
- * Memory collection
- *
- * @package Live\Collection
- */
-class MemoryCollection implements CollectionInterface
+class FileCollection implements CollectionInterface
 {
+
     /**
-     * Collection data
+     * Collection file
      *
      * @var array
      */
-    protected $data;
+    protected $file;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->data = [];
+        $this->file = [];
     }
 
     /**
@@ -32,8 +28,8 @@ class MemoryCollection implements CollectionInterface
         if (!$this->has('index')) {
             return $defaultValue;
         }
-        if ($this->data[$index]['expirationTime'] < date('H:i:s', time() + 3600)) {
-            return $this->data[$index][0];
+        if ($this->file[$index]['expirationTime'] < date('H:i:s', time() + 3600)) {
+            return $this->file[$index];
         }
         return $defaultValue;
     }
@@ -46,8 +42,8 @@ class MemoryCollection implements CollectionInterface
         if ($expirationTime == null) {
             $expirationTime = time() + 3600;
         }
-        $value = [$value, 'expirationTime' => $expirationTime];
-        $this->data[$index] = $value;
+        $value = [$value, $expirationTime];
+        $this->file[$index] = $value;
     }
 
     /**
