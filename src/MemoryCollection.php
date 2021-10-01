@@ -59,7 +59,7 @@ class MemoryCollection implements CollectionInterface
     {
         /**
          *  Since function count of interface Countable return number of elements
-         *  in an array add 1 to returned value will generate a inconsistent value    
+         *  in an array add 1 to returned value will generate a inconsistent value
          * */
         return count($this->data);
     }
