@@ -4,7 +4,7 @@ namespace Live\Collection;
 
 use PHPUnit\Framework\TestCase;
 
-class MemoryCollectionTest extends TestCase
+class FileCollectionTest extends TestCase
 {
     /**
      * @test
@@ -12,7 +12,7 @@ class MemoryCollectionTest extends TestCase
      */
     public function objectCanBeConstructed()
     {
-        $collection = new MemoryCollection();
+        $collection = new FileCollection();
         return $collection;
     }
 
@@ -23,12 +23,12 @@ class MemoryCollectionTest extends TestCase
      */
     public function dataCanBeAdded()
     {
-        $collection = new MemoryCollection();
-        $collection->set('index1', 'value');
-        $collection->set('index2', 5, '09:58:01');
+        $collection = new FileCollection();
+        $collection->set('index1', false, '09:58:01');
+        $collection->set('index2', 28.6);
         $collection->set('index3', true);
-        $collection->set('index4', 6.5, '23:17:10');
-        $collection->set('index5', ['data'], '08:17:10');
+        $collection->set('index4', 'test value', '12:54:10');
+        $collection->set('index5', ['file1', 'file2', 'file3'], '09:55:13');
     }
 
     /**
@@ -37,13 +37,13 @@ class MemoryCollectionTest extends TestCase
      */
     public function dataCanBeRetrieved()
     {
-        $collection = new MemoryCollection();
+        $collection = new FileCollection();
         $collection->set('index1', 'value');
-        $collection->set('index2', ['data_1', 'data_2'], '08:17:10');
+        $collection->set('index2', ['file_1', 'file_2'], '08:17:10');
         $collection->set('index3', 25.6, '23:17:10');
 
         $this->assertEquals('value', $collection->get('index1'));
-        $this->assertEquals(['data_1', 'data_2'], $collection->get('index2'));
+        $this->assertEquals(['file_1', 'file_2'], $collection->get('index2'));
         $this->assertEquals(25.6, $collection->get('index3'));
     }
 
@@ -53,7 +53,7 @@ class MemoryCollectionTest extends TestCase
      */
     public function inexistentIndexShouldReturnDefaultValue()
     {
-        $collection = new MemoryCollection();
+        $collection = new FileCollection();
 
         $this->assertNull($collection->get('index1'));
         $this->assertEquals('defaultValue', $collection->get('index1', 'defaultValue'));
@@ -65,7 +65,7 @@ class MemoryCollectionTest extends TestCase
      */
     public function newCollectionShouldNotContainItems()
     {
-        $collection = new MemoryCollection();
+        $collection = new FileCollection();
         $this->assertEquals(0, $collection->count());
     }
 
@@ -75,7 +75,7 @@ class MemoryCollectionTest extends TestCase
      */
     public function collectionWithItemsShouldReturnValidCount()
     {
-        $collection = new MemoryCollection();
+        $collection = new FileCollection();
         $collection->set('index1', 'value');
         $collection->set('index2', 5);
         $collection->set('index3', true);
@@ -89,7 +89,7 @@ class MemoryCollectionTest extends TestCase
      */
     public function collectionCanBeCleaned()
     {
-        $collection = new MemoryCollection();
+        $collection = new FileCollection();
         $collection->set('index', 'value');
         $this->assertEquals(1, $collection->count());
 
@@ -103,7 +103,7 @@ class MemoryCollectionTest extends TestCase
      */
     public function addedItemShouldExistInCollection()
     {
-        $collection = new MemoryCollection();
+        $collection = new FileCollection();
         $collection->set('index', 'value');
 
         $this->assertTrue($collection->has('index'));

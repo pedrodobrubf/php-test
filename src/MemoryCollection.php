@@ -29,13 +29,15 @@ class MemoryCollection implements CollectionInterface
      */
     public function get(string $index, $defaultValue = null)
     {
-        if (!$this->has('index')) {
+        if (!$this->has($index)) {
             return $defaultValue;
         }
-        if ($this->data[$index]['expirationTime'] < date('H:i:s', time() + 3600)) {
+        if (
+            strtotime($this->data[$index]['expirationTime'])
+            > strtotime(date('H:i:s', time() + 3600))
+        ) {
             return $this->data[$index][0];
         }
-        return $defaultValue;
     }
 
     /**
@@ -44,7 +46,7 @@ class MemoryCollection implements CollectionInterface
     public function set(string $index, $value, $expirationTime = null)
     {
         if ($expirationTime == null) {
-            $expirationTime = time() + 3600;
+            $expirationTime = '11:59:59';
         }
         $value = [$value, 'expirationTime' => $expirationTime];
         $this->data[$index] = $value;

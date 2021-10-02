@@ -25,13 +25,15 @@ class FileCollection implements CollectionInterface
      */
     public function get(string $index, $defaultValue = null)
     {
-        if (!$this->has('index')) {
+        if (!$this->has($index)) {
             return $defaultValue;
         }
-        if ($this->file[$index]['expirationTime'] < date('H:i:s', time() + 3600)) {
-            return $this->file[$index];
+        if (
+            strtotime($this->file[$index]['expirationTime'])
+            > strtotime(date('H:i:s', time() + 3600))
+        ) {
+            return $this->file[$index][0];
         }
-        return $defaultValue;
     }
 
     /**
@@ -40,9 +42,9 @@ class FileCollection implements CollectionInterface
     public function set(string $index, $value, $expirationTime = null)
     {
         if ($expirationTime == null) {
-            $expirationTime = time() + 3600;
+            $expirationTime = '11:59:59';
         }
-        $value = [$value, $expirationTime];
+        $value = [$value, 'expirationTime' => $expirationTime];
         $this->file[$index] = $value;
     }
 
@@ -51,7 +53,7 @@ class FileCollection implements CollectionInterface
      */
     public function has(string $index)
     {
-        return array_key_exists($index, $this->data);
+        return array_key_exists($index, $this->file);
     }
 
     /**
@@ -63,7 +65,7 @@ class FileCollection implements CollectionInterface
          *  Since function count of interface Countable return number of elements
          *  in an array add 1 to returned value will generate a inconsistent value
          * */
-        return count($this->data);
+        return count($this->file);
     }
 
     /**
@@ -71,6 +73,6 @@ class FileCollection implements CollectionInterface
      */
     public function clean()
     {
-        $this->data = [];
+        $this->file = [];
     }
 }
