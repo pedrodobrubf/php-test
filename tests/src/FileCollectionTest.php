@@ -44,7 +44,7 @@ class FileCollectionTest extends TestCase
 
         $this->assertEquals('value', $collection->get('index1'));
         $this->assertEquals(['file_1', 'file_2'], $collection->get('index2'));
-        $this->assertEquals(25.6, $collection->get('index3'));
+        $this->assertEquals(null, $collection->get('index3'));
     }
 
     /**

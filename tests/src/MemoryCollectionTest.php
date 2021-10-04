@@ -44,7 +44,7 @@ class MemoryCollectionTest extends TestCase
 
         $this->assertEquals('value', $collection->get('index1'));
         $this->assertEquals(['data_1', 'data_2'], $collection->get('index2'));
-        $this->assertEquals(25.6, $collection->get('index3'));
+        $this->assertEquals(null, $collection->get('index3'));
     }
 
     /**

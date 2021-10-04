@@ -32,10 +32,7 @@ class MemoryCollection implements CollectionInterface
         if (!$this->has($index)) {
             return $defaultValue;
         }
-        if (
-            strtotime($this->data[$index]['expirationTime'])
-            > strtotime(date('H:i:s', time() + 3600))
-        ) {
+        if (strtotime($this->data[$index]['expirationTime']) < strtotime(date('H:i:s', time() + 3600))) {
             return $this->data[$index][0];
         }
     }

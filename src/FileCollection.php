@@ -28,10 +28,7 @@ class FileCollection implements CollectionInterface
         if (!$this->has($index)) {
             return $defaultValue;
         }
-        if (
-            strtotime($this->file[$index]['expirationTime'])
-            > strtotime(date('H:i:s', time() + 3600))
-        ) {
+        if (strtotime($this->file[$index]['expirationTime']) < strtotime(date('H:i:s', time() + 3600))) {
             return $this->file[$index][0];
         }
     }
