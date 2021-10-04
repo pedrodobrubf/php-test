@@ -43,7 +43,7 @@ class MemoryCollection implements CollectionInterface
     public function set(string $index, $value, $expirationTime = null)
     {
         if ($expirationTime == null) {
-            $expirationTime = '11:59:59';
+            $expirationTime = date('H:i:s', time() - 7200);
         }
         $value = [$value, 'expirationTime' => $expirationTime];
         $this->data[$index] = $value;
